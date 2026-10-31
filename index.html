@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#14110e">
+<title>TRU HITCH</title>
+<style>
+:root{--bg:#14110e;--ink:#f4ecdf;--dim:#b7a898;--line:#3a3026;--rope:#d7a26a;--card:#211a14}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 Georgia,serif}
+button,input{font:inherit;color:inherit}
+header{padding:16px 16px 6px} h1{font-size:22px;letter-spacing:.14em;margin:0;font-weight:normal} h1 span{color:var(--rope)}
+.sub{color:var(--dim);font-size:13px}
+.bar{display:flex;gap:8px;padding:8px 16px} input{flex:1;background:#0e0c0a;border:1px solid var(--line);border-radius:8px;padding:10px}
+button{background:var(--rope);color:#1a140c;border:0;border-radius:8px;padding:10px 12px;font-weight:bold}
+main{padding:0 16px 28px} .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:0 0 10px}
+.k{color:var(--rope);font-size:12px;letter-spacing:.12em} .big{font-size:22px;margin:4px 0} .src{color:var(--dim);font-size:12px;margin-top:6px}
+</style>
+</head>
+<body>
+<header>
+  <h1>TRU <span>HITCH</span></h1>
+  <p class="sub">Extra working hitches and bends beyond the six in Cord. Steps only. Dress and set.</p>
+</header>
+<div class="bar">
+  <input id="q" placeholder="trucker's, constrictor, prusik, alpine…" enterkeyhint="search">
+  <button id="send">Send</button>
+</div>
+<main id="out"></main>
+<script>
+const H=[
+{t:"Trucker’s hitch",use:"Mechanical advantage for tightening a load or tent ridge.",d:"Make a slip loop (or a fixed loop) in the standing part well above the load. Pass the free end around the anchor and back up through the loop. Pull down on the free end to tension. Lock with two half hitches against the loop. Release by undoing the half hitches and slipping the loop free."},
+{t:"Constrictor knot",use:"Binds tightly around a hose, bag, or stick and does not slip easily.",d:"Pass the end under the standing part to make a simple overhand. Cross over the standing part again and tuck under both the first and second turns so the end lies parallel to the standing part. Pull both ends. A double constrictor adds one more turn before the final tuck."},
+{t:"Prusik hitch",use:"A sliding friction hitch that grips under load and slides when unloaded. Climbing and ascending ropes.",d:"Use a smaller cord loop. Wrap it around the main rope two or three times, then pass the loop of the smaller cord through itself so the wraps sit neat. Load the hitch by pulling on the standing end of the small cord. It must be the right diameter ratio and set carefully. Practice before it holds a person."},
+{t:"Alpine butterfly",use:"A secure mid-rope loop that can take load in three directions.",d:"Twist a small coil into the rope so you have three strands. Fold the middle strand down and pass it under the other two, then up through the eye formed. Dress the two outer coils against the middle. It holds in either direction along the rope or on the loop itself."},
+{t:"Rolling hitch",use:"Attach a rope to another rope or spar so it holds under lengthwise pull.",d:"Pass the end around the host rope or spar, then make two turns in the direction of pull, each turn crossing over the previous. Finish with a half hitch on the standing part. Pull sets it. A third turn (Magnus or rolling hitch variant) increases grip on slick surfaces."},
+{t:"Timber hitch",use:"Temporary hold around a log or post for dragging.",d:"Pass the end around the log, then wrap it around its own standing part three or more times, working toward the log. The wraps must lie neat. Pull on the standing part to set. It tightens under load and loosens when slack. Back with a half hitch near the log if needed."},
+{t:"Clove hitch on a bight",use:"Same as a clove hitch but made with a doubled rope so both ends remain free.",d:"Form a bight. Cross it over the spar, then cross again, and tuck the bight under the second cross. Adjust both legs. Useful when you need two free ends after the hitch."},
+{t:"Double sheet bend",use:"Stronger join of two ropes, especially when diameters differ or ropes are slick.",d:"Make a bight in the thicker rope. Pass the thinner end up through the bight, around behind both legs, and back under its own standing part twice so two wraps trap it against the bight. Dress and set."}
+];
+function esc(s){return String(s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));}
+function card(x){return `<article class="card"><div class="k">HITCH</div><div class="big">${esc(x.t)}</div><div>${esc(x.use)}</div><p>${esc(x.d)}</p><div class="src">Traditional working knots. Practice with scrap before it matters. Cord holds the basic six.</div></article>`;}
+function show(list){document.getElementById("out").innerHTML=list.map(card).join("");}
+function search(q){
+  q=(q||"").trim().toLowerCase();
+  if(!q){show(H);return;}
+  const hits=H.filter(x=>(x.t+" "+x.use+" "+x.d).toLowerCase().includes(q));
+  document.getElementById("out").innerHTML=hits.length?hits.map(card).join(""):`<article class="card"><div class="k">GAP</div><div class="big">Not packed</div><div>Only the hitches on this card. No invented tie. See also Cord for the six basics.</div></article>`;
+}
+document.getElementById("send").onclick=()=>search(document.getElementById("q").value);
+document.getElementById("q").onkeydown=e=>{if(e.key==="Enter")search(e.target.value);};
+show(H);
+</script>
+</body>
+</html>
